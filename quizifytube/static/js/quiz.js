@@ -6,6 +6,16 @@ let totalQuestions = 0;
 const maxQuestions = 10;
 
 function generateNewQuestion() {
+    // Wait for DOM elements to be ready
+    const questionElement = document.getElementById('question');
+    const optionsContainer = document.getElementById('options');
+    
+    if (!questionElement || !optionsContainer) {
+        console.log('Quiz elements not ready, retrying...');
+        setTimeout(generateNewQuestion, 100);
+        return;
+    }
+
     if (totalQuestions >= maxQuestions) {
         showFinalScore();
         return;
@@ -29,8 +39,7 @@ function generateNewQuestion() {
     options = options.sort(() => Math.random() - 0.5);
 
     // Update UI
-    document.getElementById('question').textContent = `${num1} + ${num2} = ?`;
-    const optionsContainer = document.getElementById('options');
+    questionElement.textContent = `${num1} + ${num2} = ?`;
     optionsContainer.innerHTML = '';
 
     options.forEach(option => {
@@ -78,8 +87,11 @@ function checkAnswer(selected, correct) {
 }
 
 function updateProgress() {
-    const progress = (totalQuestions / maxQuestions) * 100;
-    document.querySelector('.progress-bar').style.width = `${progress}%`;
+    const progressBar = document.querySelector('.progress-bar');
+    if (progressBar) {
+        const progress = (totalQuestions / maxQuestions) * 100;
+        progressBar.style.width = `${progress}%`;
+    }
 }
 
 function showFinalScore() {
@@ -103,9 +115,15 @@ function showFinalScore() {
 function restartQuiz() {
     currentScore = 0;
     totalQuestions = 0;
-    document.getElementById('score').textContent = '0';
+    const scoreElement = document.getElementById('score');
+    if (scoreElement) {
+        scoreElement.textContent = '0';
+    }
     generateNewQuestion();
 }
 
-// Start the first question
-generateNewQuestion();
+// Initialize quiz when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded - Initializing Quiz');
+    setTimeout(generateNewQuestion, 100); // Small delay to ensure elements are ready
+});
