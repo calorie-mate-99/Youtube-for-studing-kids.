@@ -1,5 +1,4 @@
 // Constants
-const VIDEO_ID = 'byTCfdoa_lI';
 const initialQuizRequired = true;
 
 let player;
@@ -10,7 +9,7 @@ function onYouTubeIframeAPIReady() {
         player = new YT.Player('player', {
             height: '390',
             width: '640',
-            videoId: VIDEO_ID,
+            videoId: window.VIDEO_ID || 'byTCfdoa_lI', // Use VIDEO_ID from HTML or fallback
             playerVars: {
                 'playsinline': 1,
                 'modestbranding': 1,
