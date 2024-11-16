@@ -1,6 +1,3 @@
-// Shared state
-window.quizCompleted = false;
-
 // Constants
 const VIDEO_ID = 'byTCfdoa_lI';
 const initialQuizRequired = true;
@@ -8,20 +5,24 @@ const initialQuizRequired = true;
 let player;
 
 function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        height: '390',
-        width: '640',
-        videoId: VIDEO_ID,
-        playerVars: {
-            'playsinline': 1,
-            'modestbranding': 1,
-            'rel': 0
-        },
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-        }
-    });
+    try {
+        player = new YT.Player('player', {
+            height: '390',
+            width: '640',
+            videoId: VIDEO_ID,
+            playerVars: {
+                'playsinline': 1,
+                'modestbranding': 1,
+                'rel': 0
+            },
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    } catch (error) {
+        console.error('Error initializing YouTube player:', error);
+    }
 }
 
 function onPlayerReady(event) {

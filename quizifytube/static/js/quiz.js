@@ -1,3 +1,6 @@
+// Shared state
+window.quizCompleted = false;
+
 let currentScore = 0;
 let totalQuestions = 0;
 const maxQuestions = 10;
