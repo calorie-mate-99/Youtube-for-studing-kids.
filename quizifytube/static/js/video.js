@@ -1,9 +1,3 @@
-// Load YouTube IFrame Player API
-let tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-let firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
 let player;
 let initialQuizRequired = true;
 
@@ -28,15 +22,17 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-    if (initialQuizRequired && !quizCompleted) {
-        // Don't autoplay, wait for quiz completion
-        generateNewQuestion();
+    if (initialQuizRequired && !window.quizCompleted) {
+        // Wait for quiz.js to load
+        if (typeof generateNewQuestion === 'function') {
+            generateNewQuestion();
+        }
     }
 }
 
 function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
-        if (initialQuizRequired && !quizCompleted) {
+        if (initialQuizRequired && !window.quizCompleted) {
             player.pauseVideo();
             return;
         }
@@ -56,12 +52,12 @@ function checkVideoProgress() {
 }
 
 function resumeVideo() {
-    if (quizCompleted) {
+    if (window.quizCompleted) {
         player.playVideo();
     }
 }
 
 function enableVideoPlayback() {
-    quizCompleted = true;
+    window.quizCompleted = true;
     player.playVideo();
 }

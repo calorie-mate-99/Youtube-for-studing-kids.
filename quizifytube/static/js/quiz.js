@@ -1,7 +1,9 @@
+// Shared state
+window.quizCompleted = false;
+
 let currentScore = 0;
 let totalQuestions = 0;
 const maxQuestions = 10;
-let quizCompleted = false;
 
 function generateNewQuestion() {
     if (totalQuestions >= maxQuestions) {
@@ -93,7 +95,7 @@ function showFinalScore() {
     `;
 
     if (passed) {
-        quizCompleted = true;
+        window.quizCompleted = true;
         enableVideoPlayback();
     }
 }
