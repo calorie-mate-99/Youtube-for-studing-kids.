@@ -1,8 +1,11 @@
-let player;
-let initialQuizRequired = true;
+// Shared state
+window.quizCompleted = false;
 
-// Using a math tutorial video
+// Constants
 const VIDEO_ID = 'byTCfdoa_lI';
+const initialQuizRequired = true;
+
+let player;
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
