@@ -7,7 +7,9 @@ class Base(DeclarativeBase):
     pass
 
 db = SQLAlchemy(model_class=Base)
-app = Flask(__name__)
+app = Flask(__name__, 
+           template_folder='quizifytube/templates',
+           static_folder='static')
 app.secret_key = os.environ.get("FLASK_SECRET_KEY") or "a secret key"
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///quiz.db")
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
