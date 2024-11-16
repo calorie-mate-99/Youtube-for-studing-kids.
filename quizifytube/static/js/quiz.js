@@ -1,6 +1,7 @@
 let currentScore = 0;
 let totalQuestions = 0;
 const maxQuestions = 10;
+let quizCompleted = false;
 
 function generateNewQuestion() {
     if (totalQuestions >= maxQuestions) {
@@ -81,12 +82,20 @@ function updateProgress() {
 
 function showFinalScore() {
     const quizContainer = document.querySelector('.quiz-container');
+    const passThreshold = maxQuestions * 0.7; // 70% to pass
+    const passed = currentScore >= passThreshold;
+    
     quizContainer.innerHTML = `
         <h2 class="chalk-text">Quiz Complete!</h2>
         <p class="chalk-text">Final Score: ${currentScore}/${maxQuestions}</p>
+        <p class="chalk-text">${passed ? 'Congratulations! You can now watch the video.' : 'Please try again to unlock the video.'}</p>
         <button class="btn" onclick="restartQuiz()">Try Again</button>
     `;
-    resumeVideo();
+
+    if (passed) {
+        quizCompleted = true;
+        enableVideoPlayback();
+    }
 }
 
 function restartQuiz() {

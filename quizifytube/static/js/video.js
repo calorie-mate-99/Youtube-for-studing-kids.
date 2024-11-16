@@ -5,6 +5,12 @@ let firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 let player;
+let initialQuizRequired = true;
+let quizCompleted = false;
+
+// Using a math tutorial video from MKさん's channel
+const VIDEO_ID = 'rVlhMGQgDkY'; // Basic Math Tutorial
+
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         height: '390',
@@ -16,14 +22,25 @@ function onYouTubeIframeAPIReady() {
             'rel': 0
         },
         events: {
+            'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
         }
     });
 }
 
+function onPlayerReady(event) {
+    if (initialQuizRequired && !quizCompleted) {
+        // Don't autoplay, wait for quiz completion
+        generateNewQuestion();
+    }
+}
+
 function onPlayerStateChange(event) {
-    // Pause video at specific timestamps for quiz
     if (event.data == YT.PlayerState.PLAYING) {
+        if (initialQuizRequired && !quizCompleted) {
+            player.pauseVideo();
+            return;
+        }
         checkVideoProgress();
     }
 }
@@ -40,5 +57,12 @@ function checkVideoProgress() {
 }
 
 function resumeVideo() {
+    if (quizCompleted) {
+        player.playVideo();
+    }
+}
+
+function enableVideoPlayback() {
+    quizCompleted = true;
     player.playVideo();
 }
