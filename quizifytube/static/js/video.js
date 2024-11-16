@@ -6,10 +6,9 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 let player;
 let initialQuizRequired = true;
-let quizCompleted = false;
 
-// Using a math tutorial video from MKさん's channel
-const VIDEO_ID = 'rVlhMGQgDkY'; // Basic Math Tutorial
+// Using a math tutorial video
+const VIDEO_ID = 'byTCfdoa_lI';
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
