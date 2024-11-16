@@ -9,7 +9,7 @@ function onYouTubeIframeAPIReady() {
         player = new YT.Player('player', {
             height: '390',
             width: '640',
-            videoId: window.VIDEO_ID || 'byTCfdoa_lI', // Use VIDEO_ID from HTML or fallback
+            videoId: VIDEO_ID,
             playerVars: {
                 'playsinline': 1,
                 'modestbranding': 1,
@@ -36,7 +36,7 @@ function onPlayerReady(event) {
 }
 
 function initializeQuizIfNeeded() {
-    if (initialQuizRequired && !window.quizCompleted) {
+    if (initialQuizRequired && !quizCompleted) {
         console.log('Initializing quiz before video playback');
         if (typeof generateNewQuestion === 'function') {
             generateNewQuestion();
@@ -48,7 +48,7 @@ function initializeQuizIfNeeded() {
 
 function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
-        if (initialQuizRequired && !window.quizCompleted) {
+        if (initialQuizRequired && !quizCompleted) {
             player.pauseVideo();
             return;
         }
@@ -72,13 +72,13 @@ function checkVideoProgress() {
 }
 
 function resumeVideo() {
-    if (window.quizCompleted && player && typeof player.playVideo === 'function') {
+    if (quizCompleted && player && typeof player.playVideo === 'function') {
         player.playVideo();
     }
 }
 
 function enableVideoPlayback() {
-    window.quizCompleted = true;
+    quizCompleted = true;
     if (player && typeof player.playVideo === 'function') {
         player.playVideo();
     }
